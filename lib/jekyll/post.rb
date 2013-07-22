@@ -127,7 +127,7 @@ module Jekyll
     #
     # Returns the path to the file relative to the site source
     def path
-      self.data.fetch('path', self.relative_path.sub(/\A\//, ''))
+      self.data.fetch('path', PathHelper.remove_leading_slash(self.relative_path))
     end
 
     # The path to the post source file, relative to the site source
@@ -224,8 +224,8 @@ module Jekyll
 
       # sanitize url
       @url = url.split('/').reject{ |part| part =~ /^\.+$/ }.join('/')
-      @url += "/" if url =~ /\/$/
-      @url.gsub!(/\A([^\/])/, '/\1')
+      @url = PathHelper.add_trailing_slash(@url) if PathHelper.has_trailing_slash?(url)
+      @url = PathHelper.add_leading_slash(@url)
       @url
     end
 

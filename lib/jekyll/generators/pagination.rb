@@ -112,8 +112,8 @@ module Jekyll
     #
     # Returns true if the
     def self.pagination_candidate?(config, page)
-      page_dir = File.dirname(File.expand_path(remove_leading_slash(page.path), config['source']))
-      paginate_path = remove_leading_slash(config['paginate_path'])
+      page_dir = File.dirname(File.expand_path(PathHelper.remove_leading_slash(page.path), config['source']))
+      paginate_path = PathHelper.remove_leading_slash(config['paginate_path'])
       paginate_path = File.expand_path(paginate_path, config['source'])
       page.name == 'index.html' &&
         in_hierarchy(config['source'], page_dir, File.dirname(paginate_path))
@@ -144,27 +144,7 @@ module Jekyll
       return Generators::Pagination.first_page_url(site) if num_page <= 1
       format = site.config['paginate_path']
       format = format.sub(':num', num_page.to_s)
-      ensure_leading_slash(format)
-    end
-
-    # Static: Return a String version of the input which has a leading slash.
-    #         If the input already has a forward slash in position zero, it will be
-    #         returned unchanged.
-    #
-    # path - a String path
-    #
-    # Returns the path with a leading slash
-    def self.ensure_leading_slash(path)
-      path[0..0] == "/" ? path : "/#{path}"
-    end
-
-    # Static: Return a String version of the input without a leading slash.
-    #
-    # path - a String path
-    #
-    # Returns the input without the leading slash
-    def self.remove_leading_slash(path)
-      ensure_leading_slash(path)[1..-1]
+      PathHelper.add_leading_slash(format)
     end
 
     # Initialize a new Pager.

@@ -36,7 +36,7 @@ module Jekyll
     #
     # Returns the String destination directory.
     def dir
-      url[-1, 1] == '/' ? url : File.dirname(url)
+      PathHelper.has_trailing_slash?(url) ? url : File.dirname(url)
     end
 
     # The full path and filename of the post. Defined in the YAML of the post
@@ -88,8 +88,8 @@ module Jekyll
 
       # sanitize url
       @url = url.split('/').reject{ |part| part =~ /^\.+$/ }.join('/')
-      @url += "/" if url =~ /\/$/
-      @url.gsub!(/\A([^\/])/, '/\1')
+      @url += "/" if PathHelper.has_trailing_slash?(url)
+      @url = PathHelper.add_leading_slash(@url)
       @url
     end
 
@@ -122,7 +122,7 @@ module Jekyll
     #
     # Returns the path to the source file
     def path
-      self.data.fetch('path', self.relative_path.sub(/\A\//, ''))
+      self.data.fetch('path', PathHelper.remove_leading_slash(self.relative_path))
     end
 
     # The path to the page source file, relative to the site source
@@ -137,7 +137,7 @@ module Jekyll
     # Returns the destination file path String.
     def destination(dest)
       path = File.join(dest, self.url)
-      path = File.join(path, "index.html") if self.url =~ /\/$/
+      path = File.join(path, "index.html") if PathHelper.has_trailing_slash?(self.url)
       path
     end
 

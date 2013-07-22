@@ -42,6 +42,7 @@ require 'jekyll/filters'
 require 'jekyll/static_file'
 require 'jekyll/errors'
 require 'jekyll/related_posts'
+require 'jekyll/path_helper.rb'
 
 # extensions
 require 'jekyll/plugin'

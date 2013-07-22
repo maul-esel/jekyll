@@ -140,7 +140,7 @@ module Jekyll
         f_abs = File.join(base, f)
         if File.directory?(f_abs)
           f_rel = File.join(dir, f)
-          read_directories(f_rel) unless self.dest.sub(/\/$/, '') == f_abs
+          read_directories(f_rel) unless PathHelper.remove_trailing_slash(dest) == f_abs
         elsif has_yaml_header?(f_abs)
           pages << Page.new(self, self.source, dir, f)
         else
