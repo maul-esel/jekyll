@@ -1,12 +1,20 @@
 module Jekyll
   class PathHelper
 
+    def self.add_leading_slash!(path)
+      path.sub!(/\A([^\/])/, '/\1') || path
+    end
+
     def self.add_leading_slash(path)
-      path.sub(/\A([^\/])/, '/\1')
+      self.add_leading_slash!(path.dup)
+    end
+
+    def self.add_trailing_slash!(path)
+      path.sub!(/([^\/])\z/, '\1/') || path
     end
 
     def self.add_trailing_slash(path)
-      path.sub(/([^\/])\z/, '\1/')
+      self.add_trailing_slash!(path.dup)
     end
 
     def self.remove_leading_slash(path)

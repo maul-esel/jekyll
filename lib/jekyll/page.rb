@@ -89,7 +89,7 @@ module Jekyll
       # sanitize url
       @url = url.split('/').reject{ |part| part =~ /^\.+$/ }.join('/')
       @url += "/" if PathHelper.has_trailing_slash?(url)
-      @url = PathHelper.add_leading_slash(@url)
+      PathHelper.add_leading_slash!(@url)
       @url
     end
 
