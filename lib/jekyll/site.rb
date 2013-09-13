@@ -66,7 +66,7 @@ module Jekyll
         raise FatalException.new "Destination directory cannot be or contain the Source directory."
       end
 
-      plugins.load
+      plugins.load(self)
     end
 
     # Read Site data from disk and load it into internal data structures.
@@ -319,7 +319,7 @@ module Jekyll
     end
 
     def plugins
-      @plugin_manager ||= PluginManager.new(self)
+      PluginManager #.new(self)
     end
 
     private
